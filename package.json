@@ -1,0 +1,19 @@
+{
+  "name": "hrsf101-grocery-list",
+  "version": "1.0.0",
+  "description": "grocery list app",
+  "main": "./server/server.js",
+  "scripts": {
+    "start": "nodemon ./server/server.js",
+    "compile": "babel . --out-file ./client/dist/compiled --presets=env,react --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "express": "^4.16.3"
+  }
+}
