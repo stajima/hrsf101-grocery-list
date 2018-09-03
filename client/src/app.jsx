@@ -48,7 +48,9 @@ class App extends React.Component {
     return axios.put('/item', updatedItem).then(this.getListItems);
   }
 
-  handleAddItem(inputValue) {}
+  handleAddItem(inputValue) {
+    return axios.post('/item', { item: inputValue, storeId: this.state.currentStoreId }).then(this.getListItems);
+  }
 
   handleStoreSelector(storeId) {
     this.setState({ currentStoreId: Number(storeId) }, this.filterItemsByStore);

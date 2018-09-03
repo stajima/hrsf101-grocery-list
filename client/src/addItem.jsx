@@ -19,7 +19,7 @@ class AddItem extends React.Component {
           type="button"
           value="Add Item"
           onClick={() => {
-            props.handleAddItem(this.state.inputValue);
+            this.props.handleAddItem(this.state.inputValue);
           }}
         />
       </div>
