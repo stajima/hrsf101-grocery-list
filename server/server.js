@@ -12,27 +12,27 @@ app.use(express.static('client/dist'));
 // Controllers
 const getItem = (req, res) => {
   console.log('getItem::');
-  db.get();
+  db.getItem();
 };
 const postItem = (req, res) => {
   console.log('postItem::');
-  db.post();
+  db.Item();
 };
 const putItem = (req, res) => {
   console.log('putItem::');
-  db.put();
+  db.putItem();
 };
 const deleteItem = (req, res) => {
   console.log('deleteItem::');
-  db.delete();
+  db.deleteItem();
 };
 const postStore = (req, res) => {
   console.log('postStore::');
-  db.delete();
+  db.postStore();
 };
 const getStores = (req, res) => {
   console.log('getStores::');
-  db.delete();
+  db.getStores();
 };
 ///////////////////////////////////
 // Routes
