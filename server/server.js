@@ -9,16 +9,24 @@ app.use(bodyParser.json());
 app.use(express.static('client/dist'));
 ///////////////////////////////////
 // Controllers
-const handleGet = () => {
+const handleGet = (req, res) => {
   console.log('handleGet::');
 };
-const handlePost = () => {
+const handlePost = (req, res) => {
   console.log('handlePost::');
+};
+const handlePut = (req, res) => {
+  console.log('handlePut::');
+};
+const handleDelete = (req, res) => {
+  console.log('handleDelete::');
 };
 ///////////////////////////////////
 // Routes
 app.post('/list', handlePost);
 app.get('/list', handleGet);
+app.put('/list', handlePut);
+app.delete('/list', handleDelete);
 ///////////////////////////////////
 // Launch
 app.listen(PORT, (error) => {
