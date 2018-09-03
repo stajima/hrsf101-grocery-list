@@ -3,7 +3,12 @@ const List = (props) => {
     return (
       <ul>
         {props.items.map((item) => (
-          <ListItem toggleChecked={props.toggleChecked} key={item.id} item={item} />
+          <ListItem
+            handleDeleteItem={props.handleDeleteItem}
+            toggleChecked={props.toggleChecked}
+            key={item.id}
+            item={item}
+          />
         ))}
       </ul>
     );

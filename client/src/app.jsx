@@ -12,6 +12,7 @@ class App extends React.Component {
     this.toggleChecked = this.toggleChecked.bind(this);
     this.getListItems = this.getListItems.bind(this);
     this.handleItemUpdate = this.handleItemUpdate.bind(this);
+    this.handleDeleteItem = this.handleDeleteItem.bind(this);
   }
 
   componentWillMount() {
@@ -56,13 +57,21 @@ class App extends React.Component {
     this.setState({ currentStoreId: Number(storeId) }, this.filterItemsByStore);
   }
 
+  handleDeleteItem(itemId) {
+    return axios.delete('/item', { data: { id: itemId } }).then(this.getListItems);
+  }
+
   render() {
     return (
       <div>
         <StoreSelector handleStoreSelector={this.handleStoreSelector} stores={this.state.stores} />
         {!this.state.currentStoreId ? null : <AddItem handleAddItem={this.handleAddItem} />}
         {!this.state.currentStoreId ? null : (
-          <List toggleChecked={this.toggleChecked} items={this.state.filteredItems} />
+          <List
+            handleDeleteItem={this.handleDeleteItem}
+            toggleChecked={this.toggleChecked}
+            items={this.state.filteredItems}
+          />
         )}
       </div>
     );
