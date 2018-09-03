@@ -10,36 +10,77 @@ app.use(bodyParser.json());
 app.use(express.static('client/dist'));
 ///////////////////////////////////
 // Controllers
-const getItem = (req, res) => {
+const getItems = (req, res) => {
   console.log('getItem::');
-  db.getItem();
+  db.getItems((error, items) => {
+    if (error) {
+      res.status(400).end('');
+    } else {
+      res.status(200).json(items);
+    }
+  });
 };
 const postItem = (req, res) => {
   console.log('postItem::');
-  db.Item();
+  const { item, storeId } = req.body;
+  db.postItem({ item, storeId }, (error) => {
+    if (error) {
+      res.status(400).end();
+    } else {
+      res.status(201).end();
+    }
+  });
 };
 const putItem = (req, res) => {
   console.log('putItem::');
-  db.putItem();
+  let { id, item, checked, storeId } = req.body;
+  item = item.toString();
+  db.putItem({ id, item, checked, storeId }, (error) => {
+    if (error) {
+      res.status(400).end();
+    } else {
+      res.status(201).end();
+    }
+  });
 };
 const deleteItem = (req, res) => {
   console.log('deleteItem::');
-  db.deleteItem();
+  const { id } = req.body;
+  db.deleteItem(id, (error) => {
+    if (error) {
+      res.status(400).end();
+    } else {
+      res.status(200).end();
+    }
+  });
 };
 const postStore = (req, res) => {
   console.log('postStore::');
-  db.postStore();
+  const { name } = req.body;
+  db.postStore({ name }, (error) => {
+    if (error) {
+      res.status(400).end('');
+    } else {
+      res.status(201).end('');
+    }
+  });
 };
 const getStores = (req, res) => {
   console.log('getStores::');
-  db.getStores();
+  db.getStores((error, stores) => {
+    if (error) {
+      res.status(400).end('');
+    } else {
+      res.status(200).json(stores);
+    }
+  });
 };
 ///////////////////////////////////
 // Routes
-app.post('/list', postItem);
-app.get('/list', getItem);
-app.put('/list', putItem);
-app.delete('/list', deleteItem);
+app.post('/item', postItem);
+app.get('/item', getItems);
+app.put('/item', putItem);
+app.delete('/item', deleteItem);
 app.post('/store', postStore);
 app.get('/store', getStores);
 ///////////////////////////////////

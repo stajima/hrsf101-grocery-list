@@ -14,15 +14,6 @@ const executeQuery = (sql, data = null, callback) => {
   });
 };
 
-const createQueryData = (data) => {
-  const queries = [];
-  for (let column in data) {
-    if (data.hasOwnProperty(column)) {
-      queries.push([column, data[column]]);
-    }
-  }
-  return queries;
-};
 ///////////////////////
 // Store methods
 const getStores = (callback) => {
@@ -31,18 +22,19 @@ const getStores = (callback) => {
       console.log('Failed to get stores');
       callback(error);
     } else {
+      console.log('Got all stores');
       callback(null, result);
     }
   });
 };
 
 const postStore = (data, callback) => {
-  const queries = createQueryData(data);
-  executeQuery('INSERT INTO stores SET ?', queries, (error, result) => {
+  executeQuery('INSERT INTO stores SET ?', data, (error, result) => {
     if (error) {
-      console.log('Failed to insert store');
+      console.log('Failed to insert store', error);
       callback(error);
     } else {
+      console.log('New store inserted');
       callback(null, result);
     }
   });
@@ -50,51 +42,59 @@ const postStore = (data, callback) => {
 ///////////////////////
 // Item methods
 const postItem = (data, callback) => {
-  const queries = createQueryData(data);
-  executeQuery('INSERT INTO items SET ?', queries, (error, result) => {
+  executeQuery('INSERT INTO items SET ?', data, (error, result) => {
     if (error) {
-      console.log('Failed to insert item');
+      console.log('Failed to insert item', error);
       callback(error);
     } else {
+      console.log('Created new item');
       callback(null, result);
     }
   });
 };
 
 const getItems = (callback) => {
-  executeQuery('Select * FROM items', (error, result) => {
+  const sql = 'Select * FROM items i INNER JOIN stores s WHERE i.storeId = s.id';
+  executeQuery(sql, (error, result) => {
     if (error) {
       console.log('Failed to get items');
       callback(error);
     } else {
+      console.log('Got all items');
       callback(null, result);
     }
   });
 };
 
-const putItem = ({ id, item, checked = false }, callback) => {
+const putItem = ({ id, item, checked = 0, storeId }, callback) => {
   if (!id || !item) {
     callback(new Error('Need id and item to update item'));
   }
-  executeQuery('UPDATE items SET item = ?, checked = ? WHERE id = ?', [item, checked, id], (error, result) => {
-    if (error) {
-      console.log('Failed to insert item');
-      callback(error);
-    } else {
-      callback(null, result);
-    }
-  });
+  executeQuery(
+    'UPDATE items SET item = ?, checked = ?, storeId = ? WHERE id = ?',
+    [item, checked, storeId, id],
+    (error, result) => {
+      if (error) {
+        console.log('Failed to update item', error);
+        callback(error);
+      } else {
+        console.log('Item was updated');
+        callback(null, result);
+      }
+    },
+  );
 };
 
-const deleteItem = ({ id }, callback) => {
+const deleteItem = (id, callback) => {
   if (!id) {
     callback(new Error('Need id delete item'));
   }
-  executeQuery('DELETE FROM items WHERE id = ?', [id], (error, result) => {
+  executeQuery(`DELETE FROM items WHERE id = ${id}`, (error, result) => {
     if (error) {
-      console.log('Failed to insert item');
+      console.log('Failed to insert item', error);
       callback(error);
     } else {
+      console.log('Item deleted');
       callback(null, result);
     }
   });
@@ -102,7 +102,7 @@ const deleteItem = ({ id }, callback) => {
 /////////////////////////////
 
 module.exports = {
-  getItem: getItems,
+  getItems: getItems,
   postItem: postItem,
   putItem: putItem,
   deleteItem: deleteItem,
