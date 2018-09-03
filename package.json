@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "grocery list app",
   "main": "./server/server.js",
+  "repository": "https://github.com/stajima/hrsf101-grocery-list.git",
   "scripts": {
     "start": "nodemon ./server/server.js",
     "compile": "babel client/src/ --out-dir client/dist/compiled/ --presets=env,react --watch",

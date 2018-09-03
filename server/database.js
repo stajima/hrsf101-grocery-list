@@ -54,7 +54,8 @@ const postItem = (data, callback) => {
 };
 
 const getItems = (callback) => {
-  const sql = 'Select * FROM items i INNER JOIN stores s WHERE i.storeId = s.id';
+  const sql =
+    'Select i.id, i.item, i.checked, i.storeId, s.name FROM items i INNER JOIN stores s WHERE s.id = i.storeId';
   executeQuery(sql, (error, result) => {
     if (error) {
       console.log('Failed to get items');
