@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
-var bodyParser = require('body-parser');
+const bodyParser = require('body-parser');
+const db = require('./database.js');
 
 ///////////////////////////////////
 // Config
@@ -9,24 +10,38 @@ app.use(bodyParser.json());
 app.use(express.static('client/dist'));
 ///////////////////////////////////
 // Controllers
-const handleGet = (req, res) => {
-  console.log('handleGet::');
+const getItem = (req, res) => {
+  console.log('getItem::');
+  db.get();
 };
-const handlePost = (req, res) => {
-  console.log('handlePost::');
+const postItem = (req, res) => {
+  console.log('postItem::');
+  db.post();
 };
-const handlePut = (req, res) => {
-  console.log('handlePut::');
+const putItem = (req, res) => {
+  console.log('putItem::');
+  db.put();
 };
-const handleDelete = (req, res) => {
-  console.log('handleDelete::');
+const deleteItem = (req, res) => {
+  console.log('deleteItem::');
+  db.delete();
+};
+const postStore = (req, res) => {
+  console.log('postStore::');
+  db.delete();
+};
+const getStores = (req, res) => {
+  console.log('getStores::');
+  db.delete();
 };
 ///////////////////////////////////
 // Routes
-app.post('/list', handlePost);
-app.get('/list', handleGet);
-app.put('/list', handlePut);
-app.delete('/list', handleDelete);
+app.post('/list', postItem);
+app.get('/list', getItem);
+app.put('/list', putItem);
+app.delete('/list', deleteItem);
+app.post('/store', postStore);
+app.get('/store', getStores);
 ///////////////////////////////////
 // Launch
 app.listen(PORT, (error) => {
